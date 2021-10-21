@@ -15,7 +15,7 @@ import ScanQRCodeScreen from "./screens/ScanQRCodeScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
   return (
     <NavigationContainer>
@@ -72,9 +72,6 @@ function BottomTabNavigator() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
