@@ -1,12 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
+import { NavigationProp } from "@react-navigation/native";
 
-export default function Greeting({ navigation, setLoggedIn }) {
-  const handleLogIn = () => setLoggedIn(true);
+export default function EditProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Log In Here!</Text>
-      <Button onPress={handleLogIn} title="Click to Log In" />
+      <Text>Edit Profiles!</Text>
     </View>
   );
 }
