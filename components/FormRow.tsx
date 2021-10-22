@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 2,
-    borderColor: "black",
-    borderWidth: 1,
+    fontSize: 15,
     fontWeight: "bold",
   },
   input: {
     flex: 3,
-    borderColor: "black",
-    backgroundColor: "#f0f0f0",
+    fontSize: 15,
+    borderColor: "#666666",
+    backgroundColor: "#efefef",
     borderWidth: 1,
     textAlign: "center",
   },

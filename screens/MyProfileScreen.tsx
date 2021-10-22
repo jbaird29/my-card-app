@@ -3,16 +3,18 @@ import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
 export default function MyProfileScreen({ navigation, route }) {
-  // const { profileName } = route.params; // TODO - make this screen dynamic for different profiles
+  const profileName = route.params?.profileName || "Professional";
 
   const handleEditPress = () => navigation.navigate("EditProfile", { profileName: "Professional" });
   const handleSharePress = () => {};
 
   return (
     <View style={styles.container}>
-      <Text>Professional Profile</Text>
+      <Text style={styles.header}>{profileName} Profile</Text>
       <Image resizeMode="contain" source={require("../assets/fake-qr.jpg")} style={{ width: "75%" }} />
-      <Button title="Edit this Profie" onPress={handleEditPress} />
+      <View style={styles.button}>
+        <Button color="white" title="Edit this Profie" onPress={handleEditPress} />
+      </View>
     </View>
   );
 }
@@ -23,5 +25,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: "700",
+    color: "#2196F3",
+  },
+  button: {
+    width: "90%",
+    backgroundColor: "#2196F3",
   },
 });

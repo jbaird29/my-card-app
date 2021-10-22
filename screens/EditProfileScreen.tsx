@@ -11,6 +11,7 @@ import {
   ViewStyle,
   KeyboardTypeOptions,
   Switch,
+  ScrollView,
 } from "react-native";
 import IncludeInfoRow from "../components/IncludeInfoRow";
 import { IncludeInfoRowProps, Schema, schema } from "../schema";
@@ -52,12 +53,18 @@ export default function EditProfileScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>{profileName} Profile</Text>
-      {includeInfoFields.map(({ key, isEnabled, setEnabled, label }) => (
-        <IncludeInfoRow key={key} isEnabled={isEnabled} setEnabled={setEnabled} label={label} />
-      ))}
-      <Button title="Save Profile" onPress={() => handleSave()} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <Text style={styles.header}>{profileName} Profile</Text>
+      <View style={styles.container}>
+        <ScrollView>
+          {includeInfoFields.map(({ key, isEnabled, setEnabled, label }) => (
+            <IncludeInfoRow key={key} isEnabled={isEnabled} setEnabled={setEnabled} label={label} />
+          ))}
+        </ScrollView>
+      </View>
+      <View style={styles.button}>
+        <Button color="white" title="Save Profile" onPress={() => handleSave()} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -65,8 +72,21 @@ export default function EditProfileScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: "700",
+    color: "#2196F3",
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  button: {
+    width: "90%",
+    backgroundColor: "#2196F3",
+    alignSelf: "center",
+    marginBottom: 20,
   },
 });

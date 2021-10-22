@@ -5,7 +5,7 @@ import { NavigationProp } from "@react-navigation/native";
 export default function ScanQRCodeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Edit Profiles!</Text>
+      <Text>TO BE UPDATED! STAY TUNED!</Text>
     </View>
   );
 }

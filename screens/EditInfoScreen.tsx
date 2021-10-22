@@ -9,6 +9,7 @@ import {
   StyleProp,
   ViewStyle,
   KeyboardTypeOptions,
+  ScrollView,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -55,10 +56,14 @@ export default function EditInfoScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {profileFields.map(({ key, value, setValue, label, keyboardType }) => (
-        <FormRow key={key} value={value} setValue={setValue} label={label} keyboardType={keyboardType} />
-      ))}
-      <Button title="Save Information" onPress={() => handleSave()} />
+      <ScrollView>
+        {profileFields.map(({ key, value, setValue, label, keyboardType }) => (
+          <FormRow key={key} value={value} setValue={setValue} label={label} keyboardType={keyboardType} />
+        ))}
+      </ScrollView>
+      <View style={styles.button}>
+        <Button color="white" title="Save Information" onPress={() => handleSave()} />
+      </View>
     </SafeAreaView>
   );
 }
@@ -66,13 +71,16 @@ export default function EditInfoScreen({ navigation }) {
 const container: StyleProp<ViewStyle> = {
   backgroundColor: "#fff",
   flex: 1,
-  flexDirection: "column",
-  alignItems: "flex-start",
-  justifyContent: "flex-start",
-  alignContent: "flex-start",
-  flexWrap: "nowrap",
+};
+
+const button: StyleProp<ViewStyle> = {
+  width: "90%",
+  backgroundColor: "#2196F3",
+  alignSelf: "center",
+  marginBottom: 20,
 };
 
 const styles = StyleSheet.create({
   container,
+  button,
 });

@@ -14,6 +14,8 @@ import ScanQRCodeScreen from "./screens/ScanQRCodeScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import ProfilesNav from "./navigation/ProfilesNav";
 
+import BottomTabNavigator from "./navigation/BottomTab";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -34,49 +36,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-/**
- * Copied from: https://reactnavigation.org/docs/bottom-tab-navigator
- * Date: 10/20/2021
- */
-const BottomTab = createBottomTabNavigator();
-
-function BottomTabNavigator() {
-  return (
-    <BottomTab.Navigator initialRouteName="MyProfile">
-      <BottomTab.Screen
-        name="Profiles"
-        component={ProfilesNav}
-        options={({ navigation }) => ({
-          title: "My Profiles",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
-        })}
-      />
-      <BottomTab.Screen
-        name="EditInfo"
-        component={EditInfoScreen}
-        options={{
-          title: "Edit Info",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="ScanQRCode"
-        component={ScanQRCodeScreen}
-        options={{
-          title: "Scan QR",
-          headerShown: false,
-          tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-  },
-});
