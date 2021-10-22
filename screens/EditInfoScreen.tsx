@@ -15,48 +15,10 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import FormRow from "../components/FormRow";
 import data from "../savedData.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export interface FormRow {
-  key: string;
-  label: string;
-  keyboardType: KeyboardTypeOptions;
-}
-
-export interface FormRowProps extends FormRow {
-  value: any; // from useState hook
-  setValue: React.Dispatch<React.SetStateAction<string>>; // from useState hook
-}
+import { FormRowProps, schema } from "../schema";
 
 // TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
-export default function EditProfileScreen({ navigation }) {
-  const schema: FormRow[] = [
-    {
-      key: "firstName",
-      label: "First Name:",
-      keyboardType: "default",
-    },
-    {
-      key: "lastName",
-      label: "Last Name:",
-      keyboardType: "default",
-    },
-    {
-      key: "personalEmail",
-      label: "Personal Email:",
-      keyboardType: "email-address",
-    },
-    {
-      key: "personalPhone",
-      label: "Personal Phone:",
-      keyboardType: "phone-pad",
-    },
-    {
-      key: "workEmail",
-      label: "Work Email:",
-      keyboardType: "email-address",
-    },
-  ];
-
+export default function EditInfoScreen({ navigation }) {
   const profileFields: FormRowProps[] = schema.map((field) => {
     const [value, setValue] = useState("");
     return { ...field, value: value, setValue: setValue };
@@ -64,6 +26,7 @@ export default function EditProfileScreen({ navigation }) {
 
   const loadData = async () => {
     try {
+      // TODO: consider refactoring to multiGet(): https://react-native-async-storage.github.io/async-storage/docs/api#multiget
       profileFields.forEach(async ({ key, setValue }) => {
         const value = await AsyncStorage.getItem(`@${key}`);
         if (value !== null) setValue(value);
@@ -73,6 +36,8 @@ export default function EditProfileScreen({ navigation }) {
     }
   };
 
+  // Adapted from: https://www.codegrepper.com/code-examples/javascript/onload+in+react+js+using+functional+component
+  // Date: 10/21/2021
   useEffect(() => {
     loadData();
   }, []);
@@ -92,7 +57,7 @@ export default function EditProfileScreen({ navigation }) {
       {profileFields.map(({ key, value, setValue, label, keyboardType }) => (
         <FormRow key={key} value={value} setValue={setValue} label={label} keyboardType={keyboardType} />
       ))}
-      <Button title="Save Profile" onPress={() => handleSave()} />
+      <Button title="Save Information" onPress={() => handleSave()} />
     </SafeAreaView>
   );
 }

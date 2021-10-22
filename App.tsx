@@ -8,9 +8,11 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import LoginScreen from "./screens/LoginScreen";
 import GreetingScreen from "./screens/GreetingScreen";
-import ViewProfileScreen from "./screens/ViewProfilesScreen";
-import EditProfileScreen from "./screens/EditProfilesScreen";
+import MyProfileScreen from "./screens/MyProfileScreen";
+import EditInfoScreen from "./screens/EditInfoScreen";
 import ScanQRCodeScreen from "./screens/ScanQRCodeScreen";
+import EditProfileScreen from "./screens/EditProfileScreen";
+import ProfilesNav from "./navigation/ProfilesNav";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,20 +43,22 @@ const BottomTab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   return (
-    <BottomTab.Navigator initialRouteName="ViewProfile">
+    <BottomTab.Navigator initialRouteName="MyProfile">
       <BottomTab.Screen
-        name="ViewProfile"
-        component={ViewProfileScreen}
+        name="Profiles"
+        component={ProfilesNav}
         options={({ navigation }) => ({
-          title: "View Profiles",
+          title: "My Profiles",
+          headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
         })}
       />
       <BottomTab.Screen
-        name="EditProfile"
-        component={EditProfileScreen}
+        name="EditInfo"
+        component={EditInfoScreen}
         options={{
-          title: "Edit Profiles",
+          title: "Edit Info",
+          headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
         }}
       />
@@ -63,6 +67,7 @@ function BottomTabNavigator() {
         component={ScanQRCodeScreen}
         options={{
           title: "Scan QR",
+          headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome name="circle" size={25} style={{ marginRight: 15 }} />,
         }}
       />

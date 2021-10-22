@@ -1,12 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, TextInput, KeyboardTypeOptions } from "react-native";
-import { FormRowProps } from "../schema";
+import { StyleSheet, Text, View, Switch } from "react-native";
+import { IncludeInfoRowProps } from "../schema";
 
-export default function FormRow({ label, value, setValue, keyboardType }: FormRowProps) {
+export default function FormRow({ label, isEnabled, setEnabled }: IncludeInfoRowProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} value={value} onChangeText={setValue} keyboardType={keyboardType} />
+      <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={() => setEnabled((prev) => !prev)}
+        value={isEnabled}
+      />
     </View>
   );
 }
