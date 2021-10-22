@@ -15,6 +15,11 @@ import {
 import IncludeInfoRow from "../components/IncludeInfoRow";
 import { IncludeInfoRowProps, schema } from "../schema";
 
+interface SavedInfo {
+  key: string;
+  isEnabled: string;
+}
+
 export default function EditProfileScreen({ navigation, route }) {
   const { profileName } = route.params;
 
@@ -25,9 +30,11 @@ export default function EditProfileScreen({ navigation, route }) {
 
   const handleSave = async () => {
     try {
-      includeInfoFields.forEach(async ({ key, isEnabled }) => {
-        await AsyncStorage.setItem(`@${profileName}-${key}-toInclude`, isEnabled.toString());
-      });
+      const toSave: SavedInfo[] = includeInfoFields.map(({ key, isEnabled }) => ({
+        key,
+        isEnabled: isEnabled.toString(),
+      }));
+      await AsyncStorage.setItem(`@Profile-${profileName}`, JSON.stringify(toSave));
       navigation.navigate("MyProfile", { profileName: profileName });
     } catch (e) {
       console.log(e);
@@ -36,10 +43,10 @@ export default function EditProfileScreen({ navigation, route }) {
 
   const loadData = async () => {
     try {
-      // TODO: consider refactoring to multiGet(): https://react-native-async-storage.github.io/async-storage/docs/api#multiget
-      includeInfoFields.forEach(async ({ key, setEnabled }) => {
-        const isEnabled = await AsyncStorage.getItem(`@${profileName}-${key}-toInclude`);
-        console.log(key, isEnabled);
+      const loadSave = await AsyncStorage.getItem(`@Profile-${profileName}`);
+      const profileInfo: SavedInfo[] = JSON.parse(loadSave);
+      includeInfoFields.forEach(({ key, setEnabled }) => {
+        const isEnabled = profileInfo.find((info) => info.key === key).isEnabled;
         setEnabled(isEnabled === "true" ? true : false); // must convert string to boolean
       });
     } catch (e) {

@@ -17,6 +17,11 @@ import data from "../savedData.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FormRowProps, schema } from "../schema";
 
+interface SavedInfo {
+  key: string;
+  value: string;
+}
+
 // TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
 export default function EditInfoScreen({ navigation }) {
   const profileFields: FormRowProps[] = schema.map((field) => {
@@ -26,9 +31,10 @@ export default function EditInfoScreen({ navigation }) {
 
   const loadData = async () => {
     try {
-      // TODO: consider refactoring to multiGet(): https://react-native-async-storage.github.io/async-storage/docs/api#multiget
-      profileFields.forEach(async ({ key, setValue }) => {
-        const value = await AsyncStorage.getItem(`@${key}`);
+      const loadSave = await AsyncStorage.getItem(`@MyInfo`);
+      const myInfo: SavedInfo[] = JSON.parse(loadSave);
+      profileFields.forEach(({ key, setValue }) => {
+        const value = myInfo.find((info) => info.key === key).value;
         if (value !== null) setValue(value);
       });
     } catch (e) {
@@ -44,9 +50,8 @@ export default function EditInfoScreen({ navigation }) {
 
   const handleSave = async () => {
     try {
-      profileFields.forEach(async ({ key, value }) => {
-        await AsyncStorage.setItem(`@${key}`, value);
-      });
+      const toSave: SavedInfo[] = profileFields.map(({ key, value }) => ({ key, value }));
+      await AsyncStorage.setItem("@MyInfo", JSON.stringify(toSave));
     } catch (e) {
       console.log(e);
     }

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
 export default function MyProfileScreen({ navigation, route }) {
-  const { profileName } = route.params; // TODO - make this screen dynamic for different profiles
+  // const { profileName } = route.params; // TODO - make this screen dynamic for different profiles
 
   const handleEditPress = () => navigation.navigate("EditProfile", { profileName: "Professional" });
   const handleSharePress = () => {};
