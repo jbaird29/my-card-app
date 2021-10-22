@@ -16,9 +16,11 @@ import ProfilesNav from "../navigation/ProfilesNav";
  */
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({ navigation, route }) {
+  const initialScreen = route.params?.initialScreen || "Profiles";
+
   return (
-    <BottomTab.Navigator initialRouteName="MyProfile">
+    <BottomTab.Navigator initialRouteName={initialScreen}>
       <BottomTab.Screen
         name="Profiles"
         component={ProfilesNav}
