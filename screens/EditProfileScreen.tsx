@@ -62,6 +62,9 @@ export default function EditProfileScreen({ navigation, route }) {
           ))}
         </ScrollView>
       </View>
+      <Text style={{ fontSize: 15, textAlign: "center", paddingBottom: 5 }}>
+        Only checked fields will be shared via this QR code
+      </Text>
       <View style={styles.button}>
         <Button color="white" title="Save Profile" onPress={() => handleSave()} />
       </View>

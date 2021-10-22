@@ -9,8 +9,9 @@ export default function GreetingScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.header}>Welcome to MyCard!</Text>
       <Text style={styles.subtext}>
-        MyCard helps you easily share and receive contact information. Rather than typing a phone number, simply scan a
-        QR!
+        MyCard helps you easily <Text style={{ fontWeight: "bold" }}>share and receive </Text>contact information.
+        Rather than typing a new contact's name and phone number, simply{" "}
+        <Text style={{ fontWeight: "bold" }}>scan a QR!</Text>
       </Text>
       <Text style={styles.text}>First time here? Add your profile information.</Text>
       <View style={styles.button}>

@@ -12,6 +12,9 @@ export default function MyProfileScreen({ navigation, route }) {
     <View style={styles.container}>
       <Text style={styles.header}>{profileName} Profile</Text>
       <Image resizeMode="contain" source={require("../assets/fake-qr.jpg")} style={{ width: "75%" }} />
+      <Text style={{ fontSize: 15, textAlign: "center", paddingBottom: 5 }}>
+        Edit this profile to change the fields shared
+      </Text>
       <View style={styles.button}>
         <Button color="white" title="Edit this Profie" onPress={handleEditPress} />
       </View>

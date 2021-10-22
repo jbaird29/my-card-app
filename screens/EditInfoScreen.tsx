@@ -10,6 +10,7 @@ import {
   ViewStyle,
   KeyboardTypeOptions,
   ScrollView,
+  TextStyle,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -49,6 +50,7 @@ export default function EditInfoScreen({ navigation }) {
       const toSaveArr = profileFields.map(({ key, value }) => [key, value]);
       const toSave = Object.fromEntries(toSaveArr) as Schema;
       await AsyncStorage.setItem("@MyInfo", JSON.stringify(toSave));
+      navigation.navigate("Profiles", {});
     } catch (e) {
       console.log(e);
     }
@@ -61,6 +63,7 @@ export default function EditInfoScreen({ navigation }) {
           <FormRow key={key} value={value} setValue={setValue} label={label} keyboardType={keyboardType} />
         ))}
       </ScrollView>
+      <Text style={styles.infoMessage}>Note: this information can always be edited later</Text>
       <View style={styles.button}>
         <Button color="white" title="Save Information" onPress={() => handleSave()} />
       </View>
@@ -80,7 +83,15 @@ const button: StyleProp<ViewStyle> = {
   marginBottom: 20,
 };
 
+const infoMessage: StyleProp<TextStyle> = {
+  fontSize: 14,
+  textAlign: "center",
+  color: "black",
+  paddingBottom: 10,
+};
+
 const styles = StyleSheet.create({
   container,
   button,
+  infoMessage,
 });
