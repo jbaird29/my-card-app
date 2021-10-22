@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
 
 export default function GreetingScreen({ navigation }) {
   const goToEditInfo = () => navigation.navigate("Root", { initialScreen: "EditInfo" });

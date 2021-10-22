@@ -1,6 +1,4 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, Image, SafeAreaView } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 

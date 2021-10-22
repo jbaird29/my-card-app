@@ -1,18 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  TextInput,
-  StyleProp,
-  ViewStyle,
-  KeyboardTypeOptions,
-  Switch,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from "react-native";
 import IncludeInfoRow from "../components/IncludeInfoRow";
 import { IncludeInfoRowProps, Schema, schema } from "../schema";
 

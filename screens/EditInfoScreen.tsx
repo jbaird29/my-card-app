@@ -5,17 +5,12 @@ import {
   View,
   Button,
   SafeAreaView,
-  TextInput,
   StyleProp,
   ViewStyle,
-  KeyboardTypeOptions,
   ScrollView,
   TextStyle,
 } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import FormRow from "../components/FormRow";
-import data from "../savedData.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FormRowProps, Schema, schema } from "../schema";
 

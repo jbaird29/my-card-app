@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TextInput, KeyboardTypeOptions } from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { FormRowProps } from "../schema";
 
 export default function FormRow({ label, value, setValue, keyboardType }: FormRowProps) {
