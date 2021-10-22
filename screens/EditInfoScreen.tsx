@@ -15,12 +15,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import FormRow from "../components/FormRow";
 import data from "../savedData.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FormRowProps, schema } from "../schema";
-
-interface SavedInfo {
-  key: string;
-  value: string;
-}
+import { FormRowProps, Schema, schema } from "../schema";
 
 // TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
 export default function EditInfoScreen({ navigation }) {
@@ -32,9 +27,9 @@ export default function EditInfoScreen({ navigation }) {
   const loadData = async () => {
     try {
       const loadSave = await AsyncStorage.getItem(`@MyInfo`);
-      const myInfo: SavedInfo[] = JSON.parse(loadSave);
+      const myInfo: Schema = JSON.parse(loadSave);
       profileFields.forEach(({ key, setValue }) => {
-        const value = myInfo.find((info) => info.key === key).value;
+        const value = myInfo[key];
         if (value !== null) setValue(value);
       });
     } catch (e) {
@@ -50,7 +45,8 @@ export default function EditInfoScreen({ navigation }) {
 
   const handleSave = async () => {
     try {
-      const toSave: SavedInfo[] = profileFields.map(({ key, value }) => ({ key, value }));
+      const toSaveArr = profileFields.map(({ key, value }) => [key, value]);
+      const toSave = Object.fromEntries(toSaveArr) as Schema;
       await AsyncStorage.setItem("@MyInfo", JSON.stringify(toSave));
     } catch (e) {
       console.log(e);

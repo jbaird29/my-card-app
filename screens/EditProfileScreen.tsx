@@ -13,12 +13,7 @@ import {
   Switch,
 } from "react-native";
 import IncludeInfoRow from "../components/IncludeInfoRow";
-import { IncludeInfoRowProps, schema } from "../schema";
-
-interface SavedInfo {
-  key: string;
-  isEnabled: string;
-}
+import { IncludeInfoRowProps, Schema, schema } from "../schema";
 
 export default function EditProfileScreen({ navigation, route }) {
   const { profileName } = route.params;
@@ -28,26 +23,13 @@ export default function EditProfileScreen({ navigation, route }) {
     return { ...field, isEnabled: isEnabled, setEnabled: setEnabled };
   });
 
-  const handleSave = async () => {
-    try {
-      const toSave: SavedInfo[] = includeInfoFields.map(({ key, isEnabled }) => ({
-        key,
-        isEnabled: isEnabled.toString(),
-      }));
-      await AsyncStorage.setItem(`@Profile-${profileName}`, JSON.stringify(toSave));
-      navigation.navigate("MyProfile", { profileName: profileName });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const loadData = async () => {
     try {
       const loadSave = await AsyncStorage.getItem(`@Profile-${profileName}`);
-      const profileInfo: SavedInfo[] = JSON.parse(loadSave);
+      const profileInfo: Schema = JSON.parse(loadSave);
       includeInfoFields.forEach(({ key, setEnabled }) => {
-        const isEnabled = profileInfo.find((info) => info.key === key).isEnabled;
-        setEnabled(isEnabled === "true" ? true : false); // must convert string to boolean
+        const isEnabled = profileInfo[key];
+        setEnabled(isEnabled);
       });
     } catch (e) {
       console.log(e);
@@ -57,6 +39,17 @@ export default function EditProfileScreen({ navigation, route }) {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleSave = async () => {
+    try {
+      const toSaveArr = includeInfoFields.map(({ key, isEnabled }) => [key, isEnabled]);
+      const toSave = Object.fromEntries(toSaveArr) as Schema;
+      await AsyncStorage.setItem(`@Profile-${profileName}`, JSON.stringify(toSave));
+      navigation.navigate("MyProfile", { profileName: profileName });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>

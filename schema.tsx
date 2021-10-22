@@ -16,6 +16,14 @@ export interface IncludeInfoRowProps extends FormRow {
   setEnabled: React.Dispatch<React.SetStateAction<boolean>>; // from useState hook
 }
 
+export interface Schema {
+  firstName: string;
+  lastName: string;
+  personalEmail: string;
+  personalPhone: string;
+  workEmail: string;
+}
+
 export const schema: FormRow[] = [
   {
     key: "firstName",
