@@ -1,3 +1,5 @@
+import * as Contacts from "expo-contacts";
+
 import { KeyboardTypeOptions } from "react-native";
 
 export interface FormRow {
@@ -22,6 +24,8 @@ export interface Schema {
   personalEmail: string;
   personalPhone: string;
   workEmail: string;
+  workCompany: string;
+  workRole: string;
 }
 
 export const schema: FormRow[] = [
@@ -49,5 +53,15 @@ export const schema: FormRow[] = [
     key: "workEmail",
     label: "Work Email",
     keyboardType: "email-address",
+  },
+  {
+    key: "workCompany",
+    label: "Company",
+    keyboardType: "default",
+  },
+  {
+    key: "workRole",
+    label: "Job Title",
+    keyboardType: "default",
   },
 ];

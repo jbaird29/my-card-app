@@ -15,6 +15,7 @@ import EditProfileScreen from "./screens/EditProfileScreen";
 import ProfilesNav from "./navigation/ProfilesNav";
 
 import BottomTabNavigator from "./navigation/BottomTab";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,16 +24,18 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!isLoggedIn ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Greeting" component={GreetingScreen} options={{ title: "Welcome" }} />
-          <Stack.Screen name="Login">{(props) => <LoginScreen {...props} setLoggedIn={setLoggedIn} />}</Stack.Screen>
-        </Stack.Navigator>
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-        </Stack.Navigator>
-      )}
+      <SafeAreaView style={{ flex: 1 }}>
+        {!isLoggedIn ? (
+          <Stack.Navigator>
+            <Stack.Screen name="Greeting" component={GreetingScreen} options={{ title: "Welcome" }} />
+            <Stack.Screen name="Login">{(props) => <LoginScreen {...props} setLoggedIn={setLoggedIn} />}</Stack.Screen>
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        )}
+      </SafeAreaView>
     </NavigationContainer>
   );
 }
