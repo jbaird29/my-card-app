@@ -28,7 +28,8 @@ export interface InfoSchema {
   workRole: string;
 }
 
-export interface SomeInfoSchema {
+export interface InfoToSaveSchema {
+  m: "c"; // an ID to confirm that the scanned QR code is a mycard QR
   firstName?: string;
   lastName?: string;
   personalEmail?: string;

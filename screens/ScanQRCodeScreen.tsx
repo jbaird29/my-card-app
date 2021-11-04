@@ -18,11 +18,18 @@ export default function ScanQRCodeScreen({ navigation }) {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    const saveKey = `@Save-${Date.now()}`;
-    await AsyncStorage.setItem(saveKey, data);
-    console.log(`Saved with key: ${saveKey}`);
-    console.log(data);
-    navigation.navigate("DisplaySave", { saveKey: saveKey });
+    try {
+      const dataParsed = JSON.parse(data);
+      if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code.";
+      const saveKey = `@Save-${Date.now()}`;
+      await AsyncStorage.setItem(saveKey, data);
+      console.log(`Saved with key: ${saveKey}`);
+      console.log(data);
+      navigation.navigate("DisplaySave", { saveKey: saveKey });
+    } catch (err) {
+      console.log(err);
+      alert("Error - That is not a MyCard QR Code.");
+    }
   };
 
   if (hasPermission === null) {

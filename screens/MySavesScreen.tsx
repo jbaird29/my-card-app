@@ -6,6 +6,8 @@ import { Button, FlatList, View, StyleSheet } from "react-native";
 export default function MySavesScreen({ navigation, route }) {
   const [savesObjList, setSavesObjList] = useState([]);
 
+  // TODO - add delete save functionality (swipe left to delete? edit button?)
+  // TODO - add the name of the profile as title
   const loadAllSaveKeys = async () => {
     try {
       const allKeys = await AsyncStorage.getAllKeys();

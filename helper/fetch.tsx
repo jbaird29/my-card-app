@@ -1,7 +1,7 @@
-import { InfoSchema, SomeInfoSchema } from "../schema";
+import { InfoSchema, InfoToSaveSchema } from "../schema";
 
-export const fetchQR = async (profileInfo: SomeInfoSchema) => {
-  console.log(`Fetching: ${JSON.stringify(profileInfo)}`);
+export const fetchQR = async (profileInfo: InfoToSaveSchema) => {
+  console.log(`Fetching QR for: ${JSON.stringify(profileInfo)}`);
   try {
     const response = await fetch("https://qr-generator290.herokuapp.com/", {
       method: "POST",

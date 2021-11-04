@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { fetchQR } from "../helper/fetch";
-import { InfoIncludedSchema, InfoSchema, SomeInfoSchema } from "../schema";
+import { InfoIncludedSchema, InfoSchema, InfoToSaveSchema } from "../schema";
 
 export default function MyProfileScreen({ navigation, route }) {
   const [dataURL, setDataURL] = useState("");
@@ -16,13 +16,14 @@ export default function MyProfileScreen({ navigation, route }) {
   // TODO - probably autosave two profiles - Personal and Professional - with default values
   const updateProfileQR = async () => {
     // load two objects: myInfo, and which keys in myInfo are included in this profile
+    // myInfo:  {firstName: Jon, lastName: Baird}  myInfoIncluded {firstName: true, lastName: false}
     const myInfo: InfoSchema = JSON.parse(await AsyncStorage.getItem(`@MyInfo`));
     const myInfoIncluded: InfoIncludedSchema = JSON.parse(await AsyncStorage.getItem(`@Profile-${profileName}`));
     // filter the MyInfo to only key key/vaue pairs where InfoIncluded[key] = true
-    const payload: SomeInfoSchema = Object.fromEntries(
-      Object.entries(myInfo).filter(([key, val]) => myInfoIncluded[key])
-    );
-    // fetch the QR code image and set it onscreen
+    const payload: InfoToSaveSchema = { m: "c" };
+    for (const key in myInfo) {
+      if (myInfoIncluded[key]) payload[key] = myInfo[key];
+    }
     const dataURL = await fetchQR(payload);
     if (dataURL) setDataURL(dataURL);
   };
