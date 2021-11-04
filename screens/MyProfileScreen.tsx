@@ -19,11 +19,13 @@ export default function MyProfileScreen({ navigation, route }) {
     // myInfo:  {firstName: Jon, lastName: Baird}  myInfoIncluded {firstName: true, lastName: false}
     const myInfo: InfoSchema = JSON.parse(await AsyncStorage.getItem(`@MyInfo`));
     const myInfoIncluded: InfoIncludedSchema = JSON.parse(await AsyncStorage.getItem(`@Profile-${profileName}`));
+    if (!myInfo || !myInfoIncluded) return; // if either value wasn't found, stop;
     // filter the MyInfo to only key key/vaue pairs where InfoIncluded[key] = true
     const payload: InfoToSaveSchema = { m: "c" };
     for (const key in myInfo) {
       if (myInfoIncluded[key]) payload[key] = myInfo[key];
     }
+    // fetch the QR code dataURL and set it onscreen
     const dataURL = await fetchQR(payload);
     if (dataURL) setDataURL(dataURL);
   };

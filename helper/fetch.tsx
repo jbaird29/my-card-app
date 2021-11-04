@@ -10,11 +10,8 @@ export const fetchQR = async (profileInfo: InfoToSaveSchema) => {
       },
       body: JSON.stringify(profileInfo),
     });
-    if (response.ok) {
-      return await response.text();
-    } else {
-      return false;
-    }
+    if (!response.ok) throw `Error - HTTP response was ${response.status} ${response.statusText}`;
+    return await response.text();
   } catch (err) {
     console.log(err);
     return false;
