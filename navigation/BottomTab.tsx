@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import EditInfoScreen from "../screens/EditInfoScreen";
 import ScanQRCodeScreen from "../screens/ScanQRCodeScreen";
 import ProfilesNav from "../navigation/ProfilesNav";
+import SavesNav from "./SavesNav";
 
 /**
  * Copied from: https://reactnavigation.org/docs/bottom-tab-navigator
@@ -34,6 +35,15 @@ export default function BottomTabNavigator({ navigation, route }) {
           title: "Edit Info",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="address-card" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="SavesNav"
+        component={SavesNav}
+        options={{
+          title: "Saved Profiles",
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="download" color={color} />,
         }}
       />
       <BottomTab.Screen

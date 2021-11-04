@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import FormRow from "../components/FormRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FormRowProps, Schema, schema } from "../schema";
+import { FormRowProps, InfoSchema, schema } from "../schema";
 
 // TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
 export default function EditInfoScreen({ navigation }) {
@@ -24,7 +24,7 @@ export default function EditInfoScreen({ navigation }) {
   const loadData = async () => {
     try {
       const loadSave = await AsyncStorage.getItem(`@MyInfo`);
-      const myInfo: Schema = JSON.parse(loadSave);
+      const myInfo: InfoSchema = JSON.parse(loadSave);
       profileFields.forEach(({ key, setValue }) => {
         const value = myInfo[key];
         if (value !== null) setValue(value);
@@ -43,7 +43,7 @@ export default function EditInfoScreen({ navigation }) {
   const handleSave = async () => {
     try {
       const toSaveArr = profileFields.map(({ key, value }) => [key, value]);
-      const toSave = Object.fromEntries(toSaveArr) as Schema;
+      const toSave = Object.fromEntries(toSaveArr) as InfoSchema;
       await AsyncStorage.setItem("@MyInfo", JSON.stringify(toSave));
       navigation.navigate("Profiles", {});
     } catch (e) {

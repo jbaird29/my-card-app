@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Copied from: https://docs.expo.dev/versions/v43.0.0/sdk/bar-code-scanner/
 // Date: 10/22/2021
@@ -15,9 +16,13 @@ export default function ScanQRCodeScreen({ navigation }) {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    const saveKey = `@Save-${Date.now()}`;
+    await AsyncStorage.setItem(saveKey, data);
+    console.log(`Saved with key: ${saveKey}`);
+    console.log(data);
+    navigation.navigate("DisplaySave", { saveKey: saveKey });
   };
 
   if (hasPermission === null) {
@@ -29,10 +34,12 @@ export default function ScanQRCodeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+      {!scanned && (
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
       {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
     </View>
   );
@@ -41,8 +48,7 @@ export default function ScanQRCodeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
   },
 });
