@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DisplayRow from "../components/DisplayRow";
-import { schema, SomeInfoSchema } from "../schema";
+import { schema, InfoToSaveSchema } from "../schema";
 
 export default function MySavesScreen({ navigation, route }) {
   const [profileInfo, setProfileInfo] = useState({});
@@ -13,7 +13,7 @@ export default function MySavesScreen({ navigation, route }) {
   const loadData = async () => {
     try {
       const loadSave = await AsyncStorage.getItem(saveKey);
-      const profileInfo: SomeInfoSchema = JSON.parse(loadSave);
+      const profileInfo: InfoToSaveSchema = JSON.parse(loadSave);
       setProfileInfo(profileInfo);
     } catch (e) {
       console.log(e);
