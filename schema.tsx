@@ -18,6 +18,7 @@ export interface IncludeInfoRowProps extends FormRow {
   setEnabled: React.Dispatch<React.SetStateAction<boolean>>; // from useState hook
 }
 
+// TODO - update the schema to match expo-contacts
 export interface InfoSchema {
   firstName: string;
   lastName: string;
