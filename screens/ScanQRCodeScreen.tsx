@@ -26,6 +26,7 @@ export default function ScanQRCodeScreen({ navigation }) {
       if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code.";
       const saveKey = `@Save-${Date.now()}`;
       await AsyncStorage.setItem(saveKey, data);
+      // TODO - invalidate the SavesList state here and force a reload of the saves from storage
       console.log(`Saved with key: ${saveKey}`);
       console.log(data);
       // Below: https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator

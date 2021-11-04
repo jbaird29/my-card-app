@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, FlatList, View, StyleSheet, Animated, Text, Pressable } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
+import { InfoToSaveSchema } from "../schema";
 
-// TODO - add the name of the profile as title
 // TODO - figure out when to reload the saves state, balancing correctness & performance
 //        right now, it is reloading upon every focus event; insted reload upon state change (also occurs after new QR scan)
 
@@ -102,11 +102,17 @@ export default function MySavesScreen({ navigation, route }) {
   const loadAllSaveKeys = async () => {
     try {
       const allKeys = await AsyncStorage.getAllKeys();
-      const saveKeys = allKeys.filter((key) => key.slice(0, 5) === "@Save");
+      const saveKeys = allKeys.filter((key) => key.slice(0, 5) === "@Save"); // returns array of all saveKeys [@Save-1, @Save-2...]
       console.log(saveKeys);
-      const savesObjList = saveKeys.map((saveKey) => {
-        const saveDate = new Date(Number(saveKey.slice(6))); // saveKey is like Save-1635994586060 -> second portion is UNIX timestamp
-        return { saveKey: saveKey, title: `Saved Profile on ${saveDate.toLocaleDateString()}` };
+      const saveKeyValues = await AsyncStorage.multiGet(saveKeys); // returns array of [key, value] [[@Save-1, JSON], [@Save-2, JSON]..]
+      const savesObjList = saveKeyValues.map(([saveKey, loadSaveJSON]) => {
+        const saveDate = new Date(Number(saveKey.slice(6))); // saveKey is like @Save-1635994586060 -> second portion is UNIX timestamp
+        const prof: InfoToSaveSchema = JSON.parse(loadSaveJSON);
+        const { firstName, lastName } = prof;
+        return {
+          saveKey: saveKey,
+          title: `${firstName + " " || ""}${lastName + " " || ""}(${saveDate.toLocaleDateString()})`,
+        };
       });
       setSavesItemList(savesObjList);
     } catch (e) {
