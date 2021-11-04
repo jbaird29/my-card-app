@@ -6,9 +6,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import { InfoToSaveSchema } from "../schema";
 
-// TODO - figure out when to reload the saves state, balancing correctness & performance
-//        right now, it is reloading upon every focus event; insted reload upon state change (also occurs after new QR scan)
-
 type SaveItem = {
   saveKey: string;
   title: string;
@@ -96,7 +93,7 @@ function SaveListItem({ navigation, saveItem, setSavesItemList }) {
   );
 }
 
-export default function MySavesScreen({ navigation, route }) {
+export default function MySavesScreen({ navigation, route, saveLoadCount }) {
   const [savesItemList, setSavesItemList] = useState<SaveItem[]>([]);
 
   const loadAllSaveKeys = async () => {
@@ -120,14 +117,9 @@ export default function MySavesScreen({ navigation, route }) {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      loadAllSaveKeys(); // Performs this when screen is focused rather than mounted
-      return () => {
-        setSavesItemList([]);
-      };
-    }, [])
-  );
+  useEffect(() => {
+    loadAllSaveKeys();
+  }, [saveLoadCount]); // will reload the saves list at (1) startup of the app or (2) after a new QR is scanned
 
   return (
     <View style={styles.container}>

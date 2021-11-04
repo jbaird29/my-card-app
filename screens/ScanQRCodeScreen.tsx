@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Copied from: https://docs.expo.dev/versions/v43.0.0/sdk/bar-code-scanner/
 // Date: 10/22/2021
 
-export default function ScanQRCodeScreen({ navigation }) {
+export default function ScanQRCodeScreen({ navigation, setSaveLoadCount }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const isFocused = useIsFocused();
@@ -26,7 +26,7 @@ export default function ScanQRCodeScreen({ navigation }) {
       if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code.";
       const saveKey = `@Save-${Date.now()}`;
       await AsyncStorage.setItem(saveKey, data);
-      // TODO - invalidate the SavesList state here and force a reload of the saves from storage
+      setSaveLoadCount((prev) => prev + 1); // invalidates the SavesList state and forces a reload of the saves from storage
       console.log(`Saved with key: ${saveKey}`);
       console.log(data);
       // Below: https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator

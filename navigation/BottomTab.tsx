@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -16,6 +16,8 @@ const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ navigation, route }) {
   const initialScreen = route.params?.initialScreen || "Profiles";
+
+  const [saveLoadCount, setSaveLoadCount] = useState(1); // used to force a refresh of loaded saves, after new QR code is scanned
 
   return (
     <BottomTab.Navigator initialRouteName={initialScreen}>
@@ -39,22 +41,24 @@ export default function BottomTabNavigator({ navigation, route }) {
       />
       <BottomTab.Screen
         name="SavesNav"
-        component={SavesNav}
         options={{
           title: "Saved Profiles",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="download" color={color} />,
         }}
-      />
+      >
+        {(props) => <SavesNav {...props} saveLoadCount={saveLoadCount} />}
+      </BottomTab.Screen>
       <BottomTab.Screen
         name="ScanQRCode"
-        component={ScanQRCodeScreen}
         options={{
           title: "Scan QR",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="qrcode" color={color} />,
         }}
-      />
+      >
+        {(props) => <ScanQRCodeScreen {...props} setSaveLoadCount={setSaveLoadCount} />}
+      </BottomTab.Screen>
     </BottomTab.Navigator>
   );
 }
