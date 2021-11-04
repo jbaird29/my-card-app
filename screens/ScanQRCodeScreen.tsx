@@ -27,7 +27,8 @@ export default function ScanQRCodeScreen({ navigation }) {
       await AsyncStorage.setItem(saveKey, data);
       console.log(`Saved with key: ${saveKey}`);
       console.log(data);
-      navigation.navigate("DisplaySave", { saveKey: saveKey });
+      // Below: https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
+      navigation.navigate("SavesNav", { screen: "DisplaySave", initial: false, params: { saveKey: saveKey } });
     } catch (err) {
       console.log(err);
       alert("Error - That is not a MyCard QR Code.");
