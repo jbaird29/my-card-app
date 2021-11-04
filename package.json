@@ -24,7 +24,8 @@
     "react-native-screens": "~3.4.0",
     "react-native-web": "~0.13.12",
     "react-native-pager-view": "5.0.12",
-    "expo-barcode-scanner": "~10.2.2"
+    "expo-barcode-scanner": "~10.2.2",
+    "react-native-gesture-handler": "~1.10.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

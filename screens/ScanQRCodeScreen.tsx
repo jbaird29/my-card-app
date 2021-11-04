@@ -5,6 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Copied from: https://docs.expo.dev/versions/v43.0.0/sdk/bar-code-scanner/
 // Date: 10/22/2021
+
+// TODO - have the camera unmount when the user navigates away from the screen
 export default function ScanQRCodeScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
