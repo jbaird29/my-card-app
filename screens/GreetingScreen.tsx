@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 
 export default function GreetingScreen({ navigation }) {
-  const goToEditInfo = () => navigation.navigate("Root", { initialScreen: "EditInfo" });
+  const goToFirstTimeInfo = () => navigation.navigate("FirstTimeInfo");
   const goToMyProfile = () => navigation.navigate("Root", { initialScreen: "Profiles" });
   return (
     <View style={styles.container}>
@@ -14,7 +14,7 @@ export default function GreetingScreen({ navigation }) {
       </Text>
       <Text style={styles.text}>First time here? Add your profile information.</Text>
       <View style={styles.button}>
-        <Button color="white" title="Enter your Information" onPress={goToEditInfo} />
+        <Button color="white" title="Enter your Information" onPress={goToFirstTimeInfo} />
       </View>
       <Text style={styles.text}>Returning User? Go to the Home Screen.</Text>
       <View style={styles.button}>
