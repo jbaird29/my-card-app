@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator, Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import * as Contacts from "expo-contacts";
-import { levinTotal } from "../helper/levinTotal";
+import levin from "../helper/levinTotal";
 
 // Allows the user to enter their name, and automatically pull some contact info
 export default function FirstTimeInfoSyncScreen({ navigation }) {
@@ -16,8 +16,9 @@ export default function FirstTimeInfoSyncScreen({ navigation }) {
     setLoading(true);
     const response = await Contacts.getContactsAsync();
     const contacts = response.data;
-    contacts.sort((a, b) => levinTotal(a, fName, lName) - levinTotal(b, fName, lName));
-    setContactMatches(contacts);
+    const matches = contacts.filter((c) => levin(c, fName, lName) < 3); // arbitrary low number, so demo doesn't show my contacts
+    matches.sort((a, b) => levin(a, fName, lName) - levin(b, fName, lName));
+    setContactMatches(matches);
     setLoading(false);
   };
 
