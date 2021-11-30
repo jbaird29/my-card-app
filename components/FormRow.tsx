@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    padding: 15,
+    padding: 10,
   },
   label: {
     flex: 2,
@@ -34,8 +34,9 @@ const styles = StyleSheet.create({
   input: {
     flex: 3,
     fontSize: 15,
+    height: 30,
     borderColor: "#666666",
-    backgroundColor: "#efefef",
+    backgroundColor: "#fff",
     borderWidth: 1,
     textAlign: "center",
   },
