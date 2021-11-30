@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Date: 10/22/2021
 
 // Screen which displays a Camera, to be used to scan other QR codes
-export default function ScanQRCodeScreen({ navigation, setSaveLoadCount }) {
+export default function ScanQRCodeScreen({ navigation, doSaveReload }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const isFocused = useIsFocused();
@@ -29,7 +29,7 @@ export default function ScanQRCodeScreen({ navigation, setSaveLoadCount }) {
       if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code."; // protocol to ensure this is correct format
       const saveKey = `@Save-${Date.now()}`;
       await AsyncStorage.setItem(saveKey, data);
-      setSaveLoadCount((prev) => prev + 1); // invalidates the SavesList state and forces a reload of the saves from storage
+      doSaveReload(); // invalidates the SavesList state and forces a reload of the saves from storage
       // Below: https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
       navigation.navigate("SavesNav", { screen: "DisplaySave", initial: false, params: { saveKey: saveKey } });
     } catch (err) {
