@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from "react-native";
 import IncludeInfoRow from "../components/IncludeInfoRow";
-import { IncludeInfoRowProps, InfoIncludedSchema, schema } from "../schema";
+import { IncludeInfoRowProps, InfoIncludedSchema, schema, getInfoIncludedDefaults } from "../schema";
 
 export default function EditProfileScreen({ navigation, route }) {
   const { profileName } = route.params;
@@ -15,7 +15,7 @@ export default function EditProfileScreen({ navigation, route }) {
   const loadData = async () => {
     try {
       const loadSave = await AsyncStorage.getItem(`@Profile-${profileName}`);
-      const profileInfo: InfoIncludedSchema = JSON.parse(loadSave);
+      const profileInfo: InfoIncludedSchema = loadSave ? JSON.parse(loadSave) : getInfoIncludedDefaults(profileName);
       includeInfoFields.forEach(({ key, setEnabled }) => {
         const isEnabled: boolean = profileInfo[key];
         setEnabled(isEnabled);

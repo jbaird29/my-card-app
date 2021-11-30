@@ -87,3 +87,33 @@ export const schema: FormRow[] = [
     keyboardType: "default",
   },
 ];
+
+const profileDefaultProfessional: InfoIncludedSchema = {
+  firstName: true,
+  lastName: true,
+  personalEmail: false,
+  personalPhone: false,
+  workEmail: true,
+  workCompany: true,
+  workRole: true,
+};
+
+const profileDefaultPersonal: InfoIncludedSchema = {
+  firstName: true,
+  lastName: true,
+  personalEmail: true,
+  personalPhone: true,
+  workEmail: false,
+  workCompany: false,
+  workRole: false,
+};
+
+export const getInfoIncludedDefaults = (profile: string): InfoIncludedSchema => {
+  if (profile === "Professional") {
+    return profileDefaultProfessional;
+  } else if (profile === "Personal") {
+    return profileDefaultPersonal;
+  } else {
+    throw Error;
+  }
+};

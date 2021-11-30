@@ -12,8 +12,6 @@ export default function MyProfileScreen({ navigation, route }) {
   const handleEditPress = () => navigation.navigate("EditProfile", { profileName: profileName });
 
   // TODO - replace "Fake QR Code" with something better
-  // TODO - handle case when user doesn't have info inputted or profile type selected
-  // TODO - probably autosave two profiles - Personal and Professional - with default values
   const updateProfileQR = async () => {
     // load two objects: myInfo, and which keys in myInfo are included in this profile
     // myInfo:  {firstName: Jon, lastName: Baird}  myInfoIncluded {firstName: true, lastName: false}
