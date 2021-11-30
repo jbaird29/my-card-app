@@ -16,7 +16,7 @@ import { FormRowProps, InfoSchema, schema } from "../schema";
 import * as Contacts from "expo-contacts";
 
 // Lets the user edit their own information (name, email, phone, etc.)
-export default function EditInfoScreen({ navigation, route }) {
+export default function EditInfoScreen({ navigation, route, doQRReload }) {
   const profileFields: FormRowProps[] = schema.map((field) => {
     const [value, setValue] = useState("");
     return { ...field, value: value, setValue: setValue };
@@ -57,6 +57,7 @@ export default function EditInfoScreen({ navigation, route }) {
       const toSaveArr = profileFields.map(({ key, value }) => [key, value]);
       const toSave = Object.fromEntries(toSaveArr) as InfoSchema;
       await AsyncStorage.setItem("@MyInfo", JSON.stringify(toSave));
+      doQRReload();
       navigation.navigate("Profiles", {});
     } catch (e) {
       console.log(e);

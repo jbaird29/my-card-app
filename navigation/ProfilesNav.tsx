@@ -7,7 +7,7 @@ import EditProfileScreen from "../screens/EditProfileScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function ProfilesNav({ navigation }) {
+export default function ProfilesNav({ navigation, qrReload, doQRReload }) {
   return (
     <Tab.Navigator initialRouteName="ProfileStackProfessional">
       <Tab.Screen
@@ -16,40 +16,36 @@ export default function ProfilesNav({ navigation }) {
           tabBarLabel: "Professional",
           tabBarLabelStyle: { textTransform: "none", fontSize: 16 },
         }}
-        component={ProfileStack}
         initialParams={{ profileName: "Professional" }}
-      />
+      >
+        {(props) => <ProfileStack {...props} qrReload={qrReload} doQRReload={doQRReload} />}
+      </Tab.Screen>
       <Tab.Screen
         name="ProfileStackPersonal"
         options={{
           tabBarLabel: "Personal",
           tabBarLabelStyle: { textTransform: "none", fontSize: 16 },
         }}
-        component={ProfileStack}
         initialParams={{ profileName: "Personal" }}
-      />
+      >
+        {(props) => <ProfileStack {...props} qrReload={qrReload} doQRReload={doQRReload} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
 
 const Stack = createNativeStackNavigator();
 
-function ProfileStack({ navigation, route }) {
+function ProfileStack({ navigation, route, qrReload, doQRReload }) {
   const { profileName } = route.params;
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="MyProfile"
-        component={MyProfileScreen}
-        options={{ headerShown: false }}
-        initialParams={{ profileName }}
-      />
-      <Stack.Screen
-        name="EditProfile"
-        component={EditProfileScreen}
-        options={{ headerShown: false }}
-        initialParams={{ profileName }}
-      />
+      <Stack.Screen name="MyProfile" options={{ headerShown: false }} initialParams={{ profileName }}>
+        {(props) => <MyProfileScreen {...props} qrReload={qrReload} />}
+      </Stack.Screen>
+      <Stack.Screen name="EditProfile" options={{ headerShown: false }} initialParams={{ profileName }}>
+        {(props) => <EditProfileScreen {...props} doQRReload={doQRReload} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }

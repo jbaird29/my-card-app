@@ -5,7 +5,7 @@ import IncludeInfoRow from "../components/IncludeInfoRow";
 import { IncludeInfoRowProps, InfoIncludedSchema, schema, getInfoIncludedDefaults } from "../schema";
 
 // Edit which fields are displayed int Personal or Professional Profile QR codes
-export default function EditProfileScreen({ navigation, route }) {
+export default function EditProfileScreen({ navigation, route, doQRReload }) {
   const { profileName } = route.params;
 
   const includeInfoFields: IncludeInfoRowProps[] = schema.map((field) => {
@@ -38,6 +38,7 @@ export default function EditProfileScreen({ navigation, route }) {
       const toSaveArr = includeInfoFields.map(({ key, isEnabled }) => [key, isEnabled]);
       const toSave = Object.fromEntries(toSaveArr) as InfoIncludedSchema;
       await AsyncStorage.setItem(`@Profile-${profileName}`, JSON.stringify(toSave));
+      doQRReload();
       navigation.navigate("MyProfile", { profileName: profileName });
     } catch (e) {
       console.log(e);

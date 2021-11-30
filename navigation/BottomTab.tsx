@@ -18,27 +18,31 @@ export default function BottomTabNavigator({ navigation, route }) {
   const initialScreen = route.params?.initialScreen || "Profiles";
 
   const [saveLoadCount, setSaveLoadCount] = useState(1); // used to force a refresh of loaded saves, after new QR code is scanned
+  const [qrReload, setqrReload] = useState(1); // used to force a reload of QRs
+  const doQRReload = () => setqrReload((prev) => prev + 1);
 
   return (
     <BottomTab.Navigator initialRouteName={initialScreen}>
       <BottomTab.Screen
         name="Profiles"
-        component={ProfilesNav}
         options={({ navigation }) => ({
           title: "My Profiles",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="user-circle" color={color} />,
         })}
-      />
+      >
+        {(props) => <ProfilesNav {...props} qrReload={qrReload} doQRReload={doQRReload} />}
+      </BottomTab.Screen>
       <BottomTab.Screen
         name="EditInfo"
-        component={EditInfoScreen}
         options={{
           title: "Edit Info",
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="address-card" color={color} />,
         }}
-      />
+      >
+        {(props) => <EditInfoScreen {...props} doQRReload={doQRReload} />}
+      </BottomTab.Screen>
       <BottomTab.Screen
         name="SavesNav"
         options={{

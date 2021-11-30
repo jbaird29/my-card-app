@@ -5,7 +5,7 @@ import { fetchQR } from "../helper/fetch";
 import { getInfoIncludedDefaults, InfoIncludedSchema, InfoSchema, InfoToSaveSchema } from "../schema";
 
 // Screen which displays QR codes for Personal & Professional Profiles and button to edit them
-export default function MyProfileScreen({ navigation, route }) {
+export default function MyProfileScreen({ navigation, route, qrReload }) {
   const [loading, setLoading] = useState(false);
   const [dataURL, setDataURL] = useState("");
 
@@ -34,9 +34,10 @@ export default function MyProfileScreen({ navigation, route }) {
     setLoading(false);
   };
 
+  // reloads the QR code when the screen is mounted or when a reload is triggered (like when info is edited)
   useEffect(() => {
     updateProfileQR(profileName);
-  }, []);
+  }, [qrReload]);
 
   return (
     <View style={styles.container}>
