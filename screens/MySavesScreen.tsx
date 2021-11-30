@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgrey",
     backgroundColor: "white",
   },
+  infoMessage: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "black",
+    paddingTop: 20,
+  },
 });
 
 // Adapted from: https://dev.to/nrymarz/creating-a-gmail-style-flatlist-in-react-native-with-swipe-to-delete-functionality-o37
@@ -123,6 +129,7 @@ export default function MySavesScreen({ navigation, route, saveLoadCount }) {
 
   return (
     <View style={styles.container}>
+      {savesItemList.length === 0 && <Text style={styles.infoMessage}>You don't have any saved profiles</Text>}
       <FlatList
         data={savesItemList}
         renderItem={({ item }) => (
