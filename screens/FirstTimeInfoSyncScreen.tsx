@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator, Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import * as Contacts from "expo-contacts";
+import { levinTotal } from "../helper/levinTotal";
 
 // Allows the user to enter their name, and automatically pull some contact info
 export default function FirstTimeInfoSyncScreen({ navigation }) {
@@ -15,9 +16,8 @@ export default function FirstTimeInfoSyncScreen({ navigation }) {
     setLoading(true);
     const response = await Contacts.getContactsAsync();
     const contacts = response.data;
-    // TODO - use a better matching function; like fuzzy match
-    const matches = contacts.filter((contact) => contact.firstName === fName || contact.lastName === lName);
-    setContactMatches(matches);
+    contacts.sort((a, b) => levinTotal(a, fName, lName) - levinTotal(b, fName, lName));
+    setContactMatches(contacts);
     setLoading(false);
   };
 
