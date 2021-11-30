@@ -6,6 +6,7 @@ export interface FormRow {
   key: string;
   label: string;
   keyboardType?: KeyboardTypeOptions;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 export interface FormRowProps extends FormRow {
@@ -55,16 +56,19 @@ export const schema: FormRow[] = [
     key: "firstName",
     label: "First Name",
     keyboardType: "default",
+    autoCapitalize: "words", // 'none', 'sentences', 'words', 'characters'
   },
   {
     key: "lastName",
     label: "Last Name",
     keyboardType: "default",
+    autoCapitalize: "words",
   },
   {
     key: "personalEmail",
     label: "Personal Email",
     keyboardType: "email-address",
+    autoCapitalize: "none",
   },
   {
     key: "personalPhone",
@@ -75,16 +79,19 @@ export const schema: FormRow[] = [
     key: "workEmail",
     label: "Work Email",
     keyboardType: "email-address",
+    autoCapitalize: "none",
   },
   {
     key: "workCompany",
     label: "Company",
     keyboardType: "default",
+    autoCapitalize: "words",
   },
   {
     key: "workRole",
     label: "Job Title",
     keyboardType: "default",
+    autoCapitalize: "words",
   },
 ];
 

@@ -67,8 +67,15 @@ export default function EditInfoScreen({ navigation, route, doQRReload }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        {profileFields.map(({ key, value, setValue, label, keyboardType }) => (
-          <FormRow key={key} value={value} setValue={setValue} label={label} keyboardType={keyboardType} />
+        {profileFields.map(({ key, value, setValue, label, keyboardType, autoCapitalize }) => (
+          <FormRow
+            key={key}
+            value={value}
+            setValue={setValue}
+            label={label}
+            keyboardType={keyboardType}
+            autoCapitalize={autoCapitalize}
+          />
         ))}
       </ScrollView>
       <Text style={styles.infoMessage}>Note: this information can always be edited later</Text>

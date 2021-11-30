@@ -2,11 +2,17 @@ import React from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { FormRowProps } from "../schema";
 
-export default function FormRow({ label, value, setValue, keyboardType }: FormRowProps) {
+export default function FormRow({ label, value, setValue, keyboardType, autoCapitalize }: FormRowProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} value={value} onChangeText={setValue} keyboardType={keyboardType} />
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={setValue}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize}
+      />
     </View>
   );
 }
