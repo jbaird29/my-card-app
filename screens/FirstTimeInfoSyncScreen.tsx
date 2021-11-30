@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import * as Contacts from "expo-contacts";
 
-// TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
+// Allows the user to enter their name, and automatically pull some contact info
 export default function FirstTimeInfoSyncScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [contactMatches, setContactMatches] = useState([] as Contacts.Contact[]);
 
-  // given first name and last name, searchs for that user's Contact
+  // given first name and last name, searches for that user's Contact
   const searchForSelfContact = async (fName: string, lName: string) => {
     setContactMatches([]);
     setLoading(true);
@@ -21,9 +21,11 @@ export default function FirstTimeInfoSyncScreen({ navigation }) {
     setLoading(false);
   };
 
+  // given an Expo-content (for "myself"), navigates to the EditInfo screen which whill autofill that contact info
   const goToEditInfo = (contact: Contacts.Contact) =>
     navigation.navigate("Root", { screen: "EditInfo", initial: true, params: { contact: contact } });
 
+  // given an Expo-Content, displays that contact's key info
   const displayMatch = (contact: Contacts.Contact) => {
     if (contact) {
       return (

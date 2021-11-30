@@ -13,23 +13,20 @@ import {
 import FormRow from "../components/FormRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FormRowProps, InfoSchema, schema } from "../schema";
-import FirstTimeInfoSyncScreen from "./FirstTimeInfoSyncScreen";
 import * as Contacts from "expo-contacts";
 
-// TODO: consider using this in the future: https://react-hook-form.com/get-started#ReactNative (already installed)
-// TODO: change the schema to better match expo-contacts
+// Lets the user edit their own information (name, email, phone, etc.)
 export default function EditInfoScreen({ navigation, route }) {
   const profileFields: FormRowProps[] = schema.map((field) => {
     const [value, setValue] = useState("");
     return { ...field, value: value, setValue: setValue };
   });
 
-  // if app redirected from FirstTimeInfoSync (user's first time in app), then load data form the phone contact
+  // if app redirected from FirstTimeInfoSync (user's first time in app), then load data from the phone contact
   const loadDataFromFirstTimeSync = (contact: Contacts.Contact) => {
     profileFields.filter((field) => field.key === "firstName")[0].setValue(contact.firstName);
     profileFields.filter((field) => field.key === "lastName")[0].setValue(contact.lastName);
-    // TODO - fix the phone input in event user doesn't have phone number saved down
-    profileFields.filter((field) => field.key === "personalPhone")[0].setValue(contact.phoneNumbers[0].number);
+    profileFields.filter((field) => field.key === "personalPhone")[0].setValue(contact.phoneNumbers?.[0].number);
   };
 
   // otherwise load data from AsyncStorage

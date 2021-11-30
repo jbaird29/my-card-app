@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button, Image, ActivityIndicator } from "react-
 import { fetchQR } from "../helper/fetch";
 import { getInfoIncludedDefaults, InfoIncludedSchema, InfoSchema, InfoToSaveSchema } from "../schema";
 
+// Screen which displays QR codes for Personal & Professional Profiles and button to edit them
 export default function MyProfileScreen({ navigation, route }) {
   const [loading, setLoading] = useState(false);
   const [dataURL, setDataURL] = useState("");
@@ -12,7 +13,8 @@ export default function MyProfileScreen({ navigation, route }) {
 
   const handleEditPress = () => navigation.navigate("EditProfile", { profileName: profileName });
 
-  const updateProfileQR = async () => {
+  // given a profileName (e.g. Professional), loads the QR representation of that profile from microservice via HTTP
+  const updateProfileQR = async (profileName: string) => {
     setLoading(true);
     // load two objects: myInfo, and which keys in myInfo are included in this profile
     // myInfo:  {firstName: Jon, lastName: Baird}  myInfoIncluded {firstName: true, lastName: false}
@@ -33,7 +35,7 @@ export default function MyProfileScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    updateProfileQR();
+    updateProfileQR(profileName);
   }, []);
 
   return (

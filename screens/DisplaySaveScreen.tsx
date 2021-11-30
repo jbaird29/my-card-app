@@ -4,13 +4,15 @@ import { View, Text, StyleSheet } from "react-native";
 import DisplayRow from "../components/DisplayRow";
 import { schema, InfoToSaveSchema } from "../schema";
 
-export default function MySavesScreen({ navigation, route }) {
+// Displays a previously scanned QR / saved profile
+export default function DisplaySaveScreen({ navigation, route }) {
   const [profileInfo, setProfileInfo] = useState({});
   const [rows, setRows] = useState([]);
 
   const { saveKey } = route.params;
 
-  const loadData = async () => {
+  // Given a saveKey, load that saved data
+  const loadData = async (saveKey: string) => {
     try {
       const loadSave = await AsyncStorage.getItem(saveKey);
       const profileInfo: InfoToSaveSchema = JSON.parse(loadSave);
@@ -20,10 +22,12 @@ export default function MySavesScreen({ navigation, route }) {
     }
   };
 
+  // loads the data on component mount
   useEffect(() => {
-    loadData();
+    loadData(saveKey);
   }, []);
 
+  // after loaded the profile data, format the data to be displayed on the page
   useEffect(() => {
     const rowsRaw = schema.filter((row) => typeof profileInfo[row.key] !== "undefined");
     const rows = rowsRaw.map((row) => ({ key: row.key, label: row.label, value: profileInfo[row.key] }));

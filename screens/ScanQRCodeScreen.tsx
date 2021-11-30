@@ -7,11 +7,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Copied from: https://docs.expo.dev/versions/v43.0.0/sdk/bar-code-scanner/
 // Date: 10/22/2021
 
+// Screen which displays a Camera, to be used to scan other QR codes
 export default function ScanQRCodeScreen({ navigation, setSaveLoadCount }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const isFocused = useIsFocused();
 
+  // check if permission has been granted
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -19,21 +21,20 @@ export default function ScanQRCodeScreen({ navigation, setSaveLoadCount }) {
     })();
   }, []);
 
+  // when a QR code is scanned, save its data to storage and navigate to the display screen
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     try {
       const dataParsed = JSON.parse(data);
-      if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code.";
+      if (dataParsed.m !== "c") throw "Error - That is not a MyCard QR Code."; // protocol to ensure this is correct format
       const saveKey = `@Save-${Date.now()}`;
       await AsyncStorage.setItem(saveKey, data);
       setSaveLoadCount((prev) => prev + 1); // invalidates the SavesList state and forces a reload of the saves from storage
-      console.log(`Saved with key: ${saveKey}`);
-      console.log(data);
       // Below: https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
       navigation.navigate("SavesNav", { screen: "DisplaySave", initial: false, params: { saveKey: saveKey } });
     } catch (err) {
       console.log(err);
-      alert("Error - That is not a MyCard QR Code.");
+      alert("Error reading that QR Code.");
     }
   };
 

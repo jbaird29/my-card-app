@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button, SafeAreaView, ScrollView } from "react-
 import IncludeInfoRow from "../components/IncludeInfoRow";
 import { IncludeInfoRowProps, InfoIncludedSchema, schema, getInfoIncludedDefaults } from "../schema";
 
+// Edit which fields are displayed int Personal or Professional Profile QR codes
 export default function EditProfileScreen({ navigation, route }) {
   const { profileName } = route.params;
 
@@ -12,7 +13,8 @@ export default function EditProfileScreen({ navigation, route }) {
     return { ...field, isEnabled: isEnabled, setEnabled: setEnabled };
   });
 
-  const loadData = async () => {
+  // given a user profileName (Personal, Professional, etc.), loads the data for that profile
+  const loadData = async (profileName: string) => {
     try {
       const loadSave = await AsyncStorage.getItem(`@Profile-${profileName}`);
       const profileInfo: InfoIncludedSchema = loadSave ? JSON.parse(loadSave) : getInfoIncludedDefaults(profileName);
@@ -25,11 +27,13 @@ export default function EditProfileScreen({ navigation, route }) {
     }
   };
 
+  // load the profile on mount
   useEffect(() => {
-    loadData();
+    loadData(profileName);
   }, []);
 
-  const handleSave = async () => {
+  // given a user profileName (Personal, Professional, etc.), saves the current data state
+  const handleSave = async (profileName: string) => {
     try {
       const toSaveArr = includeInfoFields.map(({ key, isEnabled }) => [key, isEnabled]);
       const toSave = Object.fromEntries(toSaveArr) as InfoIncludedSchema;
@@ -54,7 +58,7 @@ export default function EditProfileScreen({ navigation, route }) {
         Only checked fields will be shared via this QR code
       </Text>
       <View style={styles.button}>
-        <Button color="white" title="Save Profile" onPress={() => handleSave()} />
+        <Button color="white" title="Save Profile" onPress={() => handleSave(profileName)} />
       </View>
     </SafeAreaView>
   );

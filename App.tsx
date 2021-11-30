@@ -41,6 +41,7 @@ export default function App() {
     );
   }
 
+  // otherwise, display the normal app
   return (
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>

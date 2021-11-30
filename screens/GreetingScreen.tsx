@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 
+// Displays welcome message and a walkthrough for new or existing users
 export default function GreetingScreen({ navigation }) {
   const goToFirstTimeInfo = () => navigation.navigate("FirstTimeInfo");
   const goToMyProfile = () => navigation.navigate("Root", { initialScreen: "Profiles" });

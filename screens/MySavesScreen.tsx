@@ -42,9 +42,11 @@ const styles = StyleSheet.create({
 
 // Adapted from: https://dev.to/nrymarz/creating-a-gmail-style-flatlist-in-react-native-with-swipe-to-delete-functionality-o37
 // Date: 11/04/2021
+// Displays a row within the user's save list
 function SaveListItem({ navigation, saveItem, setSavesItemList }) {
   const { saveKey, title } = saveItem as SaveItem;
 
+  // given a swipe right motion on a row, animates with a red "Delete" appearing behind the row
   const swipeRight = (progress, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [-200, 0],
@@ -69,7 +71,8 @@ function SaveListItem({ navigation, saveItem, setSavesItemList }) {
     );
   };
 
-  const deleteSave = async () => {
+  // given a saveKey, deletes that save from local storage
+  const deleteSave = async (saveKey: string) => {
     try {
       await AsyncStorage.removeItem(saveKey);
       console.log(`deleted ${saveKey}`);
@@ -79,13 +82,14 @@ function SaveListItem({ navigation, saveItem, setSavesItemList }) {
     }
   };
 
+  // Given a swipe right motion, animates with a "Delete" and then deletes that row's entry
   const rowHeight = new Animated.Value(startingRowHeight);
   const animatedDelete = () => {
     Animated.timing(rowHeight, {
       toValue: 0,
       duration: 250,
       useNativeDriver: false,
-    }).start(async () => await deleteSave());
+    }).start(async () => await deleteSave(saveKey));
   };
 
   return (
@@ -99,6 +103,7 @@ function SaveListItem({ navigation, saveItem, setSavesItemList }) {
   );
 }
 
+// Screen which lists out all of a user's saved profiles (resulting from QR scans)
 export default function MySavesScreen({ navigation, route, saveLoadCount }) {
   const [savesItemList, setSavesItemList] = useState<SaveItem[]>([]);
 
@@ -106,7 +111,6 @@ export default function MySavesScreen({ navigation, route, saveLoadCount }) {
     try {
       const allKeys = await AsyncStorage.getAllKeys();
       const saveKeys = allKeys.filter((key) => key.slice(0, 5) === "@Save"); // returns array of all saveKeys [@Save-1, @Save-2...]
-      console.log(saveKeys);
       const saveKeyValues = await AsyncStorage.multiGet(saveKeys); // returns array of [key, value] [[@Save-1, JSON], [@Save-2, JSON]..]
       const savesObjList = saveKeyValues.map(([saveKey, loadSaveJSON]) => {
         const saveDate = new Date(Number(saveKey.slice(6))); // saveKey is like @Save-1635994586060 -> second portion is UNIX timestamp
