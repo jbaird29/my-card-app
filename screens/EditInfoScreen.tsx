@@ -26,6 +26,7 @@ export default function EditInfoScreen({ navigation, route, doQRReload }) {
   const loadDataFromFirstTimeSync = (contact: Contacts.Contact) => {
     profileFields.filter((field) => field.key === "firstName")[0].setValue(contact.firstName);
     profileFields.filter((field) => field.key === "lastName")[0].setValue(contact.lastName);
+    profileFields.filter((field) => field.key === "personalEmail")[0].setValue(contact.emails?.[0].email);
     profileFields.filter((field) => field.key === "personalPhone")[0].setValue(contact.phoneNumbers?.[0].number);
   };
 
