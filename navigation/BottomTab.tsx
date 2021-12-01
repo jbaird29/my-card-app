@@ -17,7 +17,7 @@ const BottomTab = createBottomTabNavigator();
 export default function BottomTabNavigator({ navigation, route }) {
   const initialScreen = route.params?.initialScreen || "Profiles";
 
-  const [saveLoadCount, setSaveLoadCount] = useState(1); // used to force a refresh of loaded saves, after new QR code is scanned
+  const [saveLoadCount, setSaveLoadCount] = useState(1); // force refresh of saves after QR code scan
   const doSaveReload = () => setSaveLoadCount((prev) => prev + 1);
   const [qrReload, setqrReload] = useState(1); // used to force a reload of QRs
   const doQRReload = () => setqrReload((prev) => prev + 1);

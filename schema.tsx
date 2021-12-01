@@ -2,6 +2,7 @@ import * as Contacts from "expo-contacts";
 
 import { KeyboardTypeOptions } from "react-native";
 
+// For the form which allows user to input their own profile information
 export interface FormRow {
   key: string;
   label: string;
@@ -9,17 +10,19 @@ export interface FormRow {
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
+// Extended for purposes of useState hook
 export interface FormRowProps extends FormRow {
   value: string; // from useState hook
   setValue: React.Dispatch<React.SetStateAction<string>>; // from useState hook
 }
 
+// Extended for purposes of useState hook
 export interface IncludeInfoRowProps extends FormRow {
   isEnabled: boolean; // from useState hook
   setEnabled: React.Dispatch<React.SetStateAction<boolean>>; // from useState hook
 }
 
-// TODO - update the schema to match expo-contacts
+/// The fields included in user's information; intend to add fields in future app versions
 export interface InfoSchema {
   firstName: string;
   lastName: string;
@@ -30,6 +33,7 @@ export interface InfoSchema {
   workRole: string;
 }
 
+// The fields included after a QR code scan; not all fields might be included
 export interface InfoToSaveSchema {
   m: "c"; // an ID to confirm that the scanned QR code is a mycard QR
   firstName?: string;
@@ -41,6 +45,7 @@ export interface InfoToSaveSchema {
   workRole?: string;
 }
 
+// The fields for the Professional/Personal Profile edit dialog; on/off switches
 export interface InfoIncludedSchema {
   firstName: boolean;
   lastName: boolean;
@@ -115,6 +120,7 @@ const profileDefaultPersonal: InfoIncludedSchema = {
   workRole: false,
 };
 
+// Given a profile type (Professional or Personal), returns the default fields to be included
 export const getInfoIncludedDefaults = (profile: string): InfoIncludedSchema => {
   if (profile === "Professional") {
     return profileDefaultProfessional;
