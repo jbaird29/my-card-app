@@ -5,43 +5,46 @@ import DisplayRow from "../components/DisplayRow";
 import { schema, InfoToSaveSchema } from "../schema";
 import * as Contacts from "expo-contacts";
 
+// Given a contact and a new email to add, adds that email in the proper format
+const addEmailToContact = (contactForPhone: Contacts.Contact, newEmail: string, newLabel: string) => {
+  contactForPhone[Contacts.EMAILS].push({
+    email: newEmail,
+    label: newLabel,
+    id: `${Math.random() * 1000000}`,
+  });
+};
+
+// Given a contact and a new phone number to add, adds that number in the proper format
+const addPhoneToContact = (contactForPhone: Contacts.Contact, newPhone: string, newLabel: string) => {
+  contactForPhone[Contacts.PHONE_NUMBERS].push({
+    number: newPhone,
+    digits: newPhone.replaceAll(/[+-\s]/g, ""),
+    label: newLabel,
+    id: `${Math.random() * 1000000}`,
+  });
+};
+
 // Transforms profileInfo into a format necessary to save to phone
-const formatContactForPhone = (profileInfo: InfoToSaveSchema): Contacts.Contact => {
+const formatContactForPhone = (info: InfoToSaveSchema): Contacts.Contact => {
   const contactForPhone: Contacts.Contact = {
-    id: "1",
-    name: `${profileInfo.firstName} ${profileInfo.lastName}`,
+    id: "1", // the id is ignored, just need a unique string
+    name: `${info.firstName} ${info.lastName}`,
     contactType: Contacts.ContactTypes.Person,
-    [Contacts.Fields.FirstName]: profileInfo.firstName,
-    [Contacts.Fields.LastName]: profileInfo.lastName,
-    [Contacts.Fields.JobTitle]: profileInfo.workRole,
-    [Contacts.Fields.Company]: profileInfo.workCompany,
+    [Contacts.Fields.FirstName]: info.firstName,
+    [Contacts.Fields.LastName]: info.lastName,
+    [Contacts.Fields.JobTitle]: info.workRole,
+    [Contacts.Fields.Company]: info.workCompany,
     [Contacts.EMAILS]: [],
     [Contacts.PHONE_NUMBERS]: [],
   };
-  if (profileInfo.personalEmail) {
-    contactForPhone[Contacts.EMAILS].push({
-      email: profileInfo.personalEmail,
-      isPrimary: true,
-      label: "Personal",
-      id: "1",
-    });
+  if (info.personalEmail) {
+    addEmailToContact(contactForPhone, info.personalEmail, "Personal");
   }
-  if (profileInfo.workEmail) {
-    contactForPhone[Contacts.EMAILS].push({
-      email: profileInfo.workEmail,
-      isPrimary: false,
-      label: "Work",
-      id: "2",
-    });
+  if (info.workEmail) {
+    addEmailToContact(contactForPhone, info.workEmail, "Work");
   }
-  if (profileInfo.personalPhone) {
-    contactForPhone[Contacts.PHONE_NUMBERS].push({
-      number: profileInfo.personalPhone,
-      digits: profileInfo.personalPhone?.replaceAll(/[+-\s]/g, ""),
-      label: "Personal",
-      isPrimary: true,
-      id: "1",
-    });
+  if (info.personalPhone) {
+    addPhoneToContact(contactForPhone, info.personalPhone, "Personal");
   }
   return contactForPhone;
 };
