@@ -10,7 +10,7 @@ I built this project as a portfolio for CS361: Software Engineering. I followed 
 
 ## Link to Demo Video
 
-[![Alt text](https://i9.ytimg.com/vi_webp/Aj_vJsv18pw/mqdefault.webp?sqp=COjhm40G&rs=AOn4CLCyOjDuQOWT7DfUHuJkJPtloJh3tw)](https://www.youtube.com/watch?v=Aj_vJsv18pw)
+[![Alt text](https://img.youtube.com/vi/Aj_vJsv18pw/0.jpg)](https://www.youtube.com/watch?v=Aj_vJsv18pw)
 
 ## Toolchain Selection
 
